@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Products</title>
+
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <div th:insert="~{admin/template_admin::header}"></div>
+
+<!-- Page Content -->
+<div class="container">
+
+
+  <!-- Page Heading/Breadcrumbs -->
+  <h1 class="mt-4 mb-3">
+    BogoTech <small>Productos</small>
+  </h1>
+
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a th:href="@{/admin}">Home</a></li>
+    <li class="breadcrumb-item active">Ver Productos</li>
+  </ol>
+
+  <a class="btn btn-primary" th:href="@{/admin/products/create}" > Crear Producto</a>
+  <h2>Productos</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Eliminar</th>
+		<th scope="col">Inventario</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each = "product:${products}">
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.description}"></td>
+        <td th:text="${product.price}"></td>
+        <td><a  class="btn btn-warning" th:href="@{/admin/products/edit/{id} (id = ${product.id}) }">Editar</a> </td>
+        <td><a  class="btn btn-danger" th:href="@{/admin/products/delete/{id} (id = ${product.id})  }">Eliminar</a> </td>
+		
+        <td><a  class="btn btn-danger" th:href="@{/admin/products/stock/{id} (id = ${product.id}) }">Inventario</a> </td>
+      </tr>       
+    </tbody>
+  </table>
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+  <div th:insert="~{admin/template_admin::footer}"></div>
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+
+</html>
