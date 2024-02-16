@@ -3,6 +3,7 @@ package com.newpiece.infrastructure.controller;
 import com.newpiece.application.service.ProductService;
 import com.newpiece.domain.Product;
 import com.newpiece.domain.User;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,21 +28,20 @@ public class ProductController {
     }
 
     @PostMapping("/save-product")
-    public String saveProduct(Product product, @RequestParam("img") MultipartFile multipartFile) throws IOException {
+    public String saveProduct(Product product, @RequestParam("img") MultipartFile multipartFile, HttpSession httpSession) throws IOException {
         log.info("Nombre de producto: {}", product);
-        productService.saveProduct(product, multipartFile);
+        productService.saveProduct(product, multipartFile, httpSession);
         //return "admin/products/create";
         return "redirect:/admin";
     }
     @GetMapping("/show")
-    public String showProduct(Model model){
+    public String showProduct(Model model,  HttpSession httpSession){
         User user = new User();
-        user.setId(1);
+        user.setId(Integer.parseInt(httpSession.getAttribute("iduser").toString()));
         Iterable<Product> products = productService.getProductsByUser(user);
         model.addAttribute("products", products);
         return "admin/products/show";
     }
-
 
     @GetMapping("/edit/{id}")
     public String editProduct(@PathVariable Integer id, Model model){
