@@ -39,9 +39,16 @@ public class HomeController {
     @GetMapping("/product-detail/{id}")
     public String productDetail(@PathVariable Integer id, Model model, HttpSession httpSession){
         List<Stock> stocks = stockService.getStockByProduct(productService.getProductById(id));
+
+        Integer lastBalance = null;
+        // Verificamos si la lista stocks no está vacía
+        if (!stocks.isEmpty()) {
+            // conseguimos el último balance si hay elementos en la lista
+            lastBalance = stocks.get(stocks.size() - 1).getBalance();
+        }
+
         log.info("Id product: {}", id);
         log.info("stock size: {}", stocks.size());
-        Integer lastBalance = stocks.get(stocks.size()-1).getBalance();
 
         model.addAttribute("product", productService.getProductById(id));
         model.addAttribute("stock", lastBalance);
